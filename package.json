@@ -19,7 +19,9 @@
   "homepage": "https://github.com/dana322/node-store#readme",
   "dependencies": {
     "@koa/router": "^10.1.1",
+    "glob": "^7.2.0",
     "koa": "^2.13.4",
+    "koa-compose": "^4.1.0",
     "koa-views": "^8.0.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.1"

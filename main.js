@@ -1,7 +1,11 @@
+
 const Koa = require('koa')
-const { append } = require('koa/lib/response')
 
 const app = new Koa()
+
+const registerRouter = require('./router')
+
+app.use(registerRouter())
 
 app.listen(3000)
 
