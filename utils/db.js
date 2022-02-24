@@ -1,16 +1,16 @@
 const { Sequelize } = require('sequelize')
 
-const sequelize = new Sequelize('store', 'root', '123', {
-    host: '39.105.40.188',
+const sequelize = new Sequelize('store', 'debian-sys-maint', 'yJHGoYoQo3ZFNofV', {
+    host: '127.0.0.1',
     dialect: 'mysql',
+    logQueryParameters:true,
     define: {
         timestamps: true,
         createdAt: 'created_time',
-        updatedAt: 'updated_time'
+        updatedAt: 'updated_time',
     }
 })
 
-sequelize.sync({force: false})
 
 sequelize.authenticate()
     .then(()=> {

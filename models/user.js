@@ -9,11 +9,15 @@ module.exports = db.define('User', {
     },
     name : {
         type: DataTypes.STRING(20),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password: {
         type: DataTypes.STRING(40),
         allowNull: false
+    },
+    photo: {
+        type: DataTypes.STRING(255)
     },
     sex: {  
         type: DataTypes.ENUM('男', '女'),
@@ -31,6 +35,6 @@ module.exports = db.define('User', {
         type: DataTypes.STRING(11),
         allowNull: false
     },
-    updateAt: 'updated_time',
-    createdAt: 'created_time'
+}, {
+    tableName: 'tb_user',
 })

@@ -24,6 +24,7 @@
     "koa-body": "^4.2.0",
     "koa-compose": "^4.1.0",
     "koa-views": "^8.0.0",
+    "md5": "^2.3.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.1"
   }
