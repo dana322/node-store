@@ -39,7 +39,7 @@ router.post('/api/user/login', koaBody(), async (ctx, next) => {
 router.post('/api/user/register', koaBody(), async(ctx, next) => {
     const {username, password, repassword} =  ctx.request.body
     console.log('reqest is :', username, password, repassword)
-    User.findOrCreate({
+    return User.findOrCreate({
         where: {name: username},
         defaults: {
            name: username, 
