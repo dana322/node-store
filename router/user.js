@@ -3,7 +3,11 @@ const koaBody = require('koa-body')
 const md5 = require('md5')
 
 const User = require('../models/user')
+const token2user = require('../utils/token2user')
+const token = require('../utils/token')
+
 const router = new Router()
+
 
 router.post('/api/user/login', koaBody(), async (ctx, next) => {
     const {username, password} =  ctx.request.body
@@ -33,12 +37,17 @@ router.post('/api/user/login', koaBody(), async (ctx, next) => {
                 errorMessage: '',
                 data: '登录成功'
             }
+            ctx.request.user = dbUser
+            router.use(token)
+            //set cookie
+            ctx.cookies.set("token", '123')
         }
     }
 })
 router.post('/api/user/register', koaBody(), async(ctx, next) => {
     const {username, password, repassword} =  ctx.request.body
     console.log('reqest is :', username, password, repassword)
+    //await 也行，虽然这个函数被调用了，
     return User.findOrCreate({
         where: {name: username},
         defaults: {
@@ -63,13 +72,28 @@ router.post('/api/user/register', koaBody(), async(ctx, next) => {
         } else {
             ctx.response.status = 200
             ctx.response.body = {
-                errorCode: 3,
+                errorCode: 103,
                 errorMessage: '用户名已存在',
                 data: {}
             }
         }
     })
 
+})
+
+router.use('/logout', (ctx, next) => {
+    ctx.request.token = ''
+})
+
+router.use(token2user)
+
+router.get('/api/user/getUserInfo', (crx, next)=> {
+    ctx.response.status = 200
+    ctx.response.body = {
+        errorCode: 0,
+        errorMessage: '',
+        data: ctx.state.user
+    }
 })
 
 
