@@ -10,6 +10,7 @@ const router = new Router()
 
 
 router.post('/api/user/login', koaBody(), async (ctx, next) => {
+    console.log('login22222')
     const {username, password} =  ctx.request.body
     console.log('reqest is :', username, password)
 
@@ -38,9 +39,10 @@ router.post('/api/user/login', koaBody(), async (ctx, next) => {
                 data: '登录成功'
             }
             ctx.request.user = dbUser
-            router.use(token)
+            console.log('login设置的user', ctx.request.user.name)
             //set cookie
-            ctx.cookies.set("token", '123')
+            ctx.cookies.set("token", token(dbUser))
+            next()
         }
     }
 })
@@ -81,18 +83,24 @@ router.post('/api/user/register', koaBody(), async(ctx, next) => {
 
 })
 
-router.use('/logout', (ctx, next) => {
-    ctx.request.token = ''
+router.get('/api/user/logout', (ctx, next) => {
+    console.log('logout33333')
+    console.log('logour request登出的user', ctx.state.user.name)
+    ctx.cookies.set("token", "", {
+        expires: new Date('December 17, 1995 03:24:00')
+    })
+    ctx.response.status = 200
 })
 
 router.use(token2user)
 
-router.get('/api/user/getUserInfo', (crx, next)=> {
+router.get('/api/user/getUserInfo', (ctx, next) => {
+    console.log('info444444')
     ctx.response.status = 200
     ctx.response.body = {
         errorCode: 0,
         errorMessage: '',
-        data: ctx.state.user
+        data: ctx.state.user             
     }
 })
 

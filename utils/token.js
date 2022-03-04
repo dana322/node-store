@@ -1,13 +1,32 @@
 const md5 = require('md5')
+const base64 = require('base-64')
+const utf8 = require('utf8')
 
-module.exports =  function (ctx, next) {
-    //这时还没有ctx.states.user因为还没有use(token2user)
-    const payload = [ctx.request.user.name, ctx.request.user.created_time]
-    const signature = '12345679'
-    const token = payload.concat(signature)
+const signature = require('../constant/signature')
 
-    ctx.request.token = md5(token)
-    next()
+module.exports =  function (user) {
+    const payload = [user.name, user.created_time]
+    const sign = signature
+    const key = payload.concat(sign)
+
+    const message = {
+        "name": user.name,
+        "id": user.id,
+        "photo": user.photo,
+        "sex": user.sex,
+        "birth_date":user.birth_date,
+        "address": user.address,
+        "photo_number": user.photo_number,
+        "created_time": user.created_time,
+        "updated_time": user.updated_time,
+        "token": md5(key)
+    }
+    const jsonUser = JSON.stringify(message)
+
+    const bytes = utf8.encode(jsonUser)
+    const encoded = base64.encode(bytes)
+
+    return encoded
 }
 
 
