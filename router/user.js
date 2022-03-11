@@ -39,10 +39,7 @@ router.post('/api/user/login', koaBody(), async (ctx, next) => {
                 data: '登录成功'
             }
             ctx.request.user = dbUser
-            console.log('login设置的user', ctx.request.user.name)
-            //set cookie
             ctx.cookies.set("token", token(dbUser))
-            next()
         }
     }
 })
@@ -83,6 +80,7 @@ router.post('/api/user/register', koaBody(), async(ctx, next) => {
 
 })
 
+router.use(token2user)
 router.get('/api/user/logout', (ctx, next) => {
     console.log('logout33333')
     console.log('logour request登出的user', ctx.state.user.name)
@@ -92,7 +90,6 @@ router.get('/api/user/logout', (ctx, next) => {
     ctx.response.status = 200
 })
 
-router.use(token2user)
 
 router.get('/api/user/getUserInfo', (ctx, next) => {
     console.log('info444444')
@@ -103,6 +100,5 @@ router.get('/api/user/getUserInfo', (ctx, next) => {
         data: ctx.state.user             
     }
 })
-
 
 module.exports = router
