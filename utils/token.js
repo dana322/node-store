@@ -1,14 +1,11 @@
 const md5 = require('md5')
 const base64 = require('base-64')
 const utf8 = require('utf8')
-
-const signature = require('../constant/signature')
+const key = require('../constant/key')
 
 module.exports =  function (user) {
-    const payload = [user.name, user.created_time]
-    const sign = signature
-    const key = payload.concat(sign)
-
+    const time = Date.now()
+    const sign = (time + user.name + user.id + user.photo + user.sex + user.birth_date + user.address + user.photo_number + key)
     const message = {
         "name": user.name,
         "id": user.id,
@@ -17,9 +14,8 @@ module.exports =  function (user) {
         "birth_date":user.birth_date,
         "address": user.address,
         "photo_number": user.photo_number,
-        "created_time": user.created_time,
-        "updated_time": user.updated_time,
-        "token": md5(key)
+        "time": time,
+        "sign": md5(sign)
     }
     const jsonUser = JSON.stringify(message)
 
