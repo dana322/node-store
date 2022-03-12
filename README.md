@@ -1,5 +1,8 @@
 # node-store
 
+## 环境
+node: v14.17.3
+
 ## question 1 怎样拆分路由
 
 1. [方法1: 分别导出](https://blog.csdn.net/dyw3390199/article/details/114088178)
